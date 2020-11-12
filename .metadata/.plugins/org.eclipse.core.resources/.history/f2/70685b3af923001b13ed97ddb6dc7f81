@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardMapper">
+
+	<insert id = "insert" parameterType = "BoardValueObject">
+
+	INSERT INTO board (
+		board_id,
+		board_title,
+		board_contents,
+		create_user,
+		create_date
+	) VALUES (
+		(SELECT IFNULL(MAX(board_id), 0) + 1 FROM board a), 
+		#{boardTitle},
+		#{boardContents},
+		#{createUser},
+		now()
+	)
+
+	</insert>
+	
+	<select id="selectList" parameterType="String" resultType="BoardValueObject">
+		SELECT
+   			BoardID AS boardId
+    		, BoardTitle AS boardTitle
+    		, BoardContents AS boardContents
+    		, CreateUser AS createUser
+    		, date_format(CreateDate, '%Y-%m-%d') AS createDate
+    		, UpdateUser AS updateUser
+    		, date_format(UpdateDate, '%Y-%m-%d') AS updateDate
+		FROM 
+			board
+		<if test="keyword != null and keyword != ''">
+      	WHERE
+         	BoardTitle LIKE '%${keyword}%'
+          	OR
+          	BoardContents LIKE '%${keyword}%'
+          	OR
+          	CreateUser LIKE '%${keyword}%'
+          	OR
+          	UpdateUser LIKE '%${keyword}%'
+      	</if>
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="BoardValueObject">
+		SELECT
+   			BoardID AS boardId
+    		, BoardTitle AS boardTitle
+    		, BoardContents AS boardContents
+    		, CreateUser AS createUser
+    		, date_format(CreateDate, '%Y-%m-%d') AS createDate
+    		, UpdateUser AS updateUser
+    		, date_format(UpdateDate, '%Y-%m-%d') AS updateDate
+		FROM 
+			board
+		WHERE
+			board_id = #{board_id}
+	</select>
+	
+	<update id="update_action" parameterType="BoardValueObject">
+		UPDATE
+			board
+		SET
+			BoardTitle = #{boardTitle}
+			, BoardContents = #{boardContents}
+			, UpdateUser = #{updateUser}
+			, UpdateDate = NOW()
+		WHERE
+			BoardID = #{boardId}
+	</update>
+	
+	<delete id="delete_action" parameterType="int">
+		DELETE FROM	board WHERE BoardID = #{board_id}
+	</delete>
+    
+</mapper>
