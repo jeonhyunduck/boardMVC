@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="EUC-KR">	
+	<title>수정 페이지</title>
+</head>
+<body>
+	<div style="width:80%; margin : 0 auto;">
+		<table style = "width: 100%; border:1px solid #000;">
+			<tr>
+				<th style = "width:120px">제목</th>
+				<td style = "width:calc(100% - 120px)">
+					<input type="text" style="width : 100%" value="${data.boardTitle}">
+				</td>
+			</tr>
+			<tr>
+				<th>등록자</th>
+				<td>${data.createUser}</td>
+			</tr>
+			<tr>
+				<th>수정자</th>
+				<td>${data.updateUser}</td>	
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea rows="5">${data.boardContents}</textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<button style="float:right" onclick="update_action()">수정</button>
+	<button style="float:right" onclick="goSelectOne()">취소</button>
+	<button style="float:right" onclick="goSelectList()">목록으로</button>
+</body>
+<script>
+	function update_action(){
+		
+	}
+	function goSelectOne() {
+		/* var board_id = "${data.boardID}"
+		window.location.href = "/selectOne?board_id=" + board_id; */
+	}
+	function goSelectList() {
+		window.location.href = "/selectList";
+	}
+</script>
+</html>

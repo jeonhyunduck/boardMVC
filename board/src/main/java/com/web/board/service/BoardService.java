@@ -25,5 +25,14 @@ public class BoardService {
 	public BoardValueObject selectOne(int board_id) {
 		return boardDAO.selectOne(board_id);
 	}
+	public void insert_action(BoardValueObject vo) {
+		boardDAO.insert_action(vo);
+	}
+	public void delete_action(int board_id) {
+		boardDAO.delete_action(board_id);
+	}
+	public void update_action(BoardValueObject vo) {
+		boardDAO.update_action(vo);
+	}
 
 }

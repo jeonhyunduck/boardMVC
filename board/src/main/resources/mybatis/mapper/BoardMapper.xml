@@ -42,6 +42,7 @@
           	OR
           	UpdateUser LIKE '%${keyword}%'
       	</if>
+      	ORDER BY  boardId DESC
 	</select>
 	
 	<select id="selectOne" parameterType="int" resultType="BoardValueObject">
@@ -56,7 +57,7 @@
 		FROM 
 			board
 		WHERE
-			board_id = #{board_id}
+			BoardID = #{board_id}
 	</select>
 	
 	<update id="update_action" parameterType="BoardValueObject">
@@ -72,7 +73,7 @@
 	</update>
 	
 	<delete id="delete_action" parameterType="int">
-		DELETE FROM	board WHERE BoardID = #{board_id}
+		DELETE FROM	board WHERE BoardID = #{boardId}
 	</delete>
     
 </mapper>

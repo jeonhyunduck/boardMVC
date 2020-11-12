@@ -33,4 +33,43 @@ public class BoardController {
 		return "board/selectList";
 	}
 	
+	@RequestMapping(value = "/selectOne")
+	public String selectOne(Model model, int board_Id) {
+		model.addAttribute("data", boardService.selectOne(board_Id));
+		
+		return "board/selectOne";
+	}
+	
+	@RequestMapping(value = "insert")
+	public String insert() {
+		return "board/insert";
+	}
+	@RequestMapping(value = "/insert_action")
+	public String insert_action(String board_title, String create_user, String board_contents) {
+		BoardValueObject vo = new BoardValueObject();
+		System.out.println("≈∏¿Ã∆≤"+board_title);
+		vo.setBoardTitle(board_title);
+		vo.setCreateUser(create_user);
+		vo.setBoardContents(board_contents);
+		
+		boardService.insert_action(vo);
+		
+		return "redirect:/selectList";
+	}
+	@RequestMapping(value = "delete_action")
+	public String delete_action(int board_Id) {
+		boardService.delete_action(board_Id);
+		return "redirect:/selectList";
+	}
+	@RequestMapping(value="update")
+	public String update(Model model, int board_Id) {
+		model.addAttribute("data", boardService.selectOne(board_Id));
+		return "board/update";
+	}
+	@RequestMapping(value="update_action")
+	public String update_action(BoardValueObject vo) {
+		boardService.update_action(vo);
+		return "redirect:/selectList";
+	}
+	
 }
