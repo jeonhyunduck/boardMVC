@@ -45,6 +45,7 @@ public class BoardController {
 		return "board/insert";
 	}
 	@RequestMapping(value = "/insert_action")
+	
 	public String insert_action(String board_title, String create_user, String board_contents) {
 		BoardValueObject vo = new BoardValueObject();
 		System.out.println("≈∏¿Ã∆≤"+board_title);
