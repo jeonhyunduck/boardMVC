@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.web.board.dao.BoardDAO;
 import com.web.board.vo.BoardValueObject;
+import com.web.board.vo.PagingVO;
+
 
 @Service
 public class BoardService {
 	
 	@Resource
 	private BoardDAO boardDAO;
+	
 	
 	public List<BoardValueObject> selectList(String keyword) { //������ ��ȸ
 		List<BoardValueObject> list = boardDAO.selectList(keyword);
@@ -33,6 +36,16 @@ public class BoardService {
 	}
 	public void update_action(BoardValueObject vo) {
 		boardDAO.update_action(vo);
+	}
+	
+	// 게시물 총 갯수
+	public int countBoard(String keyword) {
+		return boardDAO.countBoard(keyword);
+	}
+
+	// 페이징 처리 게시글 조회
+	public List<BoardValueObject> selectBoard(PagingVO vo){
+		return boardDAO.selectBoard(vo);
 	}
 
 }

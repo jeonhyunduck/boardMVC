@@ -1,0 +1,51 @@
+package com.web.board.dao;
+
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.web.board.vo.BoardValueObject;
+import com.web.board.vo.PagingVO;
+	
+@Repository
+public class BoardDAO {
+	@Resource(name = "boardSqlSession")
+	private SqlSessionTemplate sqlTemplate;
+	
+	public List<BoardValueObject> selectList(String keyword) {
+		System.out.println("ddd: "+keyword);
+		List<BoardValueObject> list = sqlTemplate.selectList("BoardMapper.selectList", keyword);
+		
+		
+		return list;
+	}
+	
+	public BoardValueObject selectOne(int board_id) {
+		return sqlTemplate.selectOne("BoardMapper.selectOne", board_id);
+		
+		//BoardValueObject vo = sqlTemplate.selectOne("BoardMapper.selectOne", board_id);
+	    //return vo;
+	}
+	public void insert_action(BoardValueObject vo) {
+		sqlTemplate.insert("BoardMapper.insert", vo);
+	}
+	public void delete_action(int boardId) {
+		sqlTemplate.delete("BoardMapper.delete_action", boardId);
+	}
+	public void update_action(BoardValueObject vo) {
+		sqlTemplate.update("BoardMapper.update_action", vo);
+	}
+		
+	public int countBoard() {
+		return sqlTemplate.selectOne("PagingMapper.countBoard");
+	}
+
+	public List<BoardValueObject> selectBoard(PagingVO vo) {
+		return sqlTemplate.selectList("PagingMapper.selectBoard", vo);
+	}
+
+}

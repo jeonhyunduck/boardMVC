@@ -75,5 +75,44 @@
 	<delete id="delete_action" parameterType="int">
 		DELETE FROM	board WHERE BoardID = #{boardId}
 	</delete>
+	
+	<select id="countBoard" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM BOARD
+		<if test="keyword != null and keyword != ''">
+      	WHERE
+         	BoardTitle LIKE '%${keyword}%'
+          	OR
+          	BoardContents LIKE '%${keyword}%'
+          	OR
+          	CreateUser LIKE '%${keyword}%'
+          	OR
+          	UpdateUser LIKE '%${keyword}%'
+      	</if>
+	</select>
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectBoard" parameterType="PagingVO" resultType="BoardValueObject">
+		SELECT
+   			BoardID AS boardId
+    		, BoardTitle AS boardTitle
+    		, BoardContents AS boardContents
+    		, CreateUser AS createUser
+    		, date_format(CreateDate, '%Y-%m-%d') AS createDate
+    		, UpdateUser AS updateUser
+    		, date_format(UpdateDate, '%Y-%m-%d') AS updateDate
+		FROM 
+			board
+		<if test="keyword != null and keyword != ''">
+      	WHERE
+         	BoardTitle LIKE '%${keyword}%'
+          	OR
+          	BoardContents LIKE '%${keyword}%'
+          	OR
+          	CreateUser LIKE '%${keyword}%'
+          	OR
+          	UpdateUser LIKE '%${keyword}%'
+      	</if>
+		ORDER BY  boardId DESC LIMIT #{start}, 5
+	</select>
     
 </mapper>

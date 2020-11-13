@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.web.board.vo.BoardValueObject;
+import com.web.board.vo.PagingVO;
 	
 @Repository
 public class BoardDAO {
@@ -37,6 +38,14 @@ public class BoardDAO {
 	}
 	public void update_action(BoardValueObject vo) {
 		sqlTemplate.update("BoardMapper.update_action", vo);
+	}
+		
+	public int countBoard(String keyword) {
+		return sqlTemplate.selectOne("BoardMapper.countBoard", keyword);
+	}
+
+	public List<BoardValueObject> selectBoard(PagingVO vo) {
+		return sqlTemplate.selectList("BoardMapper.selectBoard", vo);
 	}
 
 }

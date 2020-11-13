@@ -30,12 +30,31 @@
          	</c:forEach>
 
 		</table>
+		<div style="display:block; text-align : center;">
+			<c:if test="${paging.startPage != 1 }">
+				<a href="/selectList?nowPage=${paging.startPage - 1}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">&lt;</a>
+			</c:if>
+			<c:forEach begin="${paging.startPage}" end="${paging.endPage}"
+				var="p">
+				<c:choose>
+					<c:when test="${p == paging.nowPage}">
+						<b>${p}</b>
+					</c:when>
+					<c:when test="${p != paging.nowPage}">
+						<a href="/selectList?nowPage=${p}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">${p}</a>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${paging.endPage != paging.lastPage}">
+				<a href="/selectList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">&gt;</a>
+			</c:if>
 
+		</div>
 		<button style="float: right" onclick="insertList()">등록하러가기</button>
 	</div>
 </body>
 <script>
-	
+	console.log("${list}");
 	function insertList() {
 		window.location.href = "/insert";
 	}
@@ -44,6 +63,10 @@
 		var keyword = document.getElementById("search_keyword").value;
 		window.location.href = "/selectList?keyword="+keyword;
 		
+	}
+	function selChange(){
+		var sel = document.getElementById('cntPerPage').value;
+		window.location.href = "/selectList?nowPage=${paging.nowPage}&cntPerPage=" + sel;
 	}
 </script>
 

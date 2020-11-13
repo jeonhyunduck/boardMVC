@@ -4,9 +4,10 @@
 <head>
 	<meta charset="EUC-KR">
 	<title>게시판 등록 화면</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-	<div style="width:80%; margin:0 auto;">
+	<div style="width:80%; margin:0 auto;" id="vueCtrl">
 		<table style = "width:80%; border:1px solid #000;">
 			<tr>
 				<th style="width:120px">제목</th>
@@ -29,28 +30,68 @@
 			
 		</table>
 		<br>
-		<button style="float:right" onclick = "insert()">등록</button>
-		<button style="float:right" onclick = "goSelectList()">취소</button>
+<!-- 		<button style="float:right" onclick = "insert()">등록</button> -->
+<!-- 		<button style="float:right" onclick = "goSelectList()">취소</button> -->
+		
+		<button style="float:right" v-on:click = "insert">등록</button>
+		<button style="float:right" v-on:click = "goSelectList">취소</button>
 	</div>
 </body>
 <script>
-	function goSelectList() {
-		window.location.href = "/selectList";
-	}
-	function insert(){
-		var board_title = document.getElementById("board_title").value;
-		var create_user = document.getElementById("create_user").value;
-		var board_contents = document.getElementById("board_contents").value;
+	var vm = new Vue({
+		  el: '#vueCtrl',
+		  data: {
+			  
+		  },
+		  methods :{
+			  
+			  insert : function() {
+				var board_title = document.getElementById("board_title").value;
+				var create_user = document.getElementById("create_user").value;
+				var board_contents = document.getElementById("board_contents").value;
+				
+
+				window.location.href = 
+						"/insert_action?" +
+						"board_title=" + board_title +
+						"&create_user=" + create_user +
+						"&board_contents=" + board_contents;
+			  },
+			  
+			  goSelectList : function(){
+				  window.location.href = "/selectList";
+				  
+			  }
+			  
+			  
+		  }
+		  
+		});
+
+
+
+
+
+
+
+
+// 	function goSelectList() {
+// 		window.location.href = "/selectList";
+// 	}
+// 	function insert(){
+// 		var board_title = document.getElementById("board_title").value;
+// 		var create_user = document.getElementById("create_user").value;
+// 		var board_contents = document.getElementById("board_contents").value;
 		
-		/* console.log("타이틀" + board_title);
-		console.log("유저"+create_user);
-		console.log("내용"+ board_contents); */
+// 		/* console.log("타이틀" + board_title);
+// 		console.log("유저"+create_user);
+// 		console.log("내용"+ board_contents); */
 		
-		window.location.href = 
-				"/insert_action?" +
-				"board_title=" + board_title +
-				"&create_user=" + create_user +
-				"&board_contents=" + board_contents;
-	}
+// 		window.location.href = 
+// 				"/insert_action?" +
+// 				"board_title=" + board_title +
+// 				"&create_user=" + create_user +
+// 				"&board_contents=" + board_contents;
+// 	}
 </script>
 </html>
