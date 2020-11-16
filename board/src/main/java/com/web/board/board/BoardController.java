@@ -1,9 +1,13 @@
 package com.web.board.board;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +36,8 @@ public class BoardController {
 			  @RequestParam(value="cntPerPage", required = false)String cntPerPage) {
 		  
 	  // List<BoardValueObject> list= boardService.selectList(keyword);
+		  
+		ObjectMapper mapper = new ObjectMapper();
 	  
 		int total = boardService.countBoard(keyword);
 		if (nowPage == null && cntPerPage == null) {
@@ -51,7 +57,19 @@ public class BoardController {
 		System.out.println(vo.toString());
 		// model.addAttribute("list", list); model.addAttribute("paging", vo);
 		model.addAttribute("paging", vo);		
-		model.addAttribute("list", boardService.selectBoard(vo));
+		try {
+			model.addAttribute("list", mapper.writeValueAsString(boardService.selectBoard(vo)));
+			System.out.println("list"+mapper.writeValueAsString(boardService.selectBoard(vo)));
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return "board/selectList";
 	}
@@ -72,8 +90,8 @@ public class BoardController {
 	
 
 	@RequestMapping(value = "/selectOne")
-	public String selectOne(Model model, int board_Id) {
-		model.addAttribute("data", boardService.selectOne(board_Id));
+	public String selectOne(Model model, int boardId) {
+		model.addAttribute("data", boardService.selectOne(boardId));
 
 		return "board/selectOne";
 	}
@@ -86,7 +104,7 @@ public class BoardController {
 	@RequestMapping(value = "/insert_action")
 	public String insert_action(String board_title, String create_user, String board_contents) {
 		BoardValueObject vo = new BoardValueObject();
-		System.out.println("Ÿ��Ʋ" + board_title);
+		System.out.println("Ÿ��Ʋ" + board_title);
 		vo.setBoardTitle(board_title);
 		vo.setCreateUser(create_user);
 		vo.setBoardContents(board_contents);
