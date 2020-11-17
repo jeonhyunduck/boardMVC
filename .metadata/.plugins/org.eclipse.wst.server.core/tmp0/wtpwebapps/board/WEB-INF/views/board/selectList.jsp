@@ -21,7 +21,8 @@
             </tr>                      
             <tr v-for="contact in list">
                 <th>{{contact.boardId}}</th>
-                <th><a href="#" v-on:click="goSelectOne(contact.boardId)">{{contact.boardTitle}}</a></th>
+                <!-- <th><a href="#" v-on:click="goSelectOne(contact.boardId)">{{contact.boardTitle}}</a></th> -->
+                <th><a v-bind:href="goSelectOne(contact.boardId)">{{contact.boardTitle}}</a></th>
                 <th>{{contact.createUser}}</th>
             </tr>
             
@@ -45,14 +46,14 @@
             <!-- <c:if test="${paging.endPage != paging.lastPage}">
                 <a href="/selectList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">&gt;</a>
             </c:if> -->
-            <!-- vue.js  기준 -->
-            <a v-if="${paging.startPage != 1}" href="#" v-on:click="leftArrowBtn">&lt;</a>
+            <!-- vue.js  기준-->
+            <a v-if="(startPage != 1)" href="#" v-on:click="leftArrowBtn">&lt;</a>
             <template v-for="p in range(startPage, endPage)">
-                <b v-if="p == ${paging.nowPage}">{{p}}</b>
-                <a v-else-if="p != ${paging.nowPage}" href = "#" v-on:click="paingNumBtn(p)">{{p}}</a>
+                <b v-if="(p == nowPage)">{{p}}</b>
+                <a v-else-if="(p != nowPage)" href = "#" v-on:click="paingNumBtn(p)">{{p}}</a>
                 <b> </b>
             </template>
-            <a v-if="${paging.endPage != paging.lastPage}" href="#" v-on:click="rightArrowBtn">&gt;</a>
+            <a v-if="(endPage -1 != lastPage)" href="#" v-on:click="rightArrowBtn">&gt;</a>
 
         </div>
         <button style="float: right" v-on:click="insertList">등록하러가기</button>
@@ -67,7 +68,8 @@
            startPage : ${paging.startPage},
            nowPage : ${paging.startPage - 1},
            cntPerPage : ${paging.cntPerPage},
-           endPage : ${paging.endPage + 1}
+           endPage : ${paging.endPage + 1},
+           lastPage : ${paging.lastPage}
                 
        },
        methods: {
@@ -79,7 +81,8 @@
                 window.location.href = "/insert";
             },
             goSelectOne: function (boardId) {
-            	window.location.href="/selectOne?boardId="+ boardId;
+                //window.location.href="/selectOne?boardId="+ boardId;
+                return "/selectOne?boardId="+ boardId;
             },
             leftArrowBtn : function(){
                 window.location.href = "/selectList?nowPage="+ this.nowPage
