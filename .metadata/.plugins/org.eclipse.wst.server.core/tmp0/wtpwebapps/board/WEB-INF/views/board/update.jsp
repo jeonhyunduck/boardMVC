@@ -12,7 +12,7 @@
 			<tr>
 				<th style="width:120px">제목</th>
 				<td style="width:calc(100% - 120px)">
-					<input id="board_title" type="text" style="width : 100%" value="${data.boardTitle}">
+					<input id="board_title" type="text" style="width : 100%" v-bind:value="board_title">
 				</td>
 			</tr>
 			<tr>
@@ -46,6 +46,7 @@
 		el : '#vueCtrl',
 		data : {
 			board_id : "${data.boardId}",
+			board_title : "${data.boardTitle}",
 			createUser : "${data.createUser}",
 			boardContents : "${data.boardContents}"
 		},

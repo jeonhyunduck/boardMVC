@@ -66,7 +66,7 @@
        data : {
            list : ${list},
            startPage : ${paging.startPage},
-           nowPage : ${paging.startPage - 1},
+           nowPage : ${paging.nowPage},
            cntPerPage : ${paging.cntPerPage},
            endPage : ${paging.endPage + 1},
            lastPage : ${paging.lastPage}
@@ -85,7 +85,7 @@
                 return "/selectOne?boardId="+ boardId;
             },
             leftArrowBtn : function(){
-                window.location.href = "/selectList?nowPage="+ this.nowPage
+                window.location.href = "/selectList?nowPage="+ (this.startPage-1)
                 + "&cntPerPage=" + this.cntPerPage
                 + "&keyword=" + keyword
             },
@@ -109,8 +109,7 @@
             
         },
         mounted() {
-            var vm = this;
-            console.log("list",this.list);
+            
         }
     });
 
