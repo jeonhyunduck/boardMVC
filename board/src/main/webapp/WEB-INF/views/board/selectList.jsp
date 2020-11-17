@@ -27,10 +27,11 @@
             
         </table>
         <div style="display:block; text-align : center;">
-            <c:if test="${paging.startPage != 1 }">
+            <!-- jstl기준 -->
+            <!-- <c:if test="${paging.startPage != 1 }">
                 <a href="/selectList?nowPage=${paging.startPage - 1}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">&lt;</a>
-            </c:if>
-            <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+            </c:if> -->
+            <!-- <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
                 <c:choose>
                     <c:when test="${p == paging.nowPage}">
                         <b>${p}</b>
@@ -39,22 +40,35 @@
                         <a href="/selectList?nowPage=${p}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">${p}</a>
                     </c:when>
                 </c:choose>
-            </c:forEach>
-            <c:if test="${paging.endPage != paging.lastPage}">
+            </c:forEach> -->
+            
+            <!-- <c:if test="${paging.endPage != paging.lastPage}">
                 <a href="/selectList?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}&keyword=${paging.keyword}">&gt;</a>
-            </c:if>
+            </c:if> -->
+            <!-- vue.js  기준 -->
+            <a v-if="${paging.startPage != 1}" href="#" v-on:click="leftArrowBtn">&lt;</a>
+            <template v-for="p in range(startPage, endPage)">
+                <b v-if="p == ${paging.nowPage}">{{p}}</b>
+                <a v-else-if="p != ${paging.nowPage}" href = "#" v-on:click="paingNumBtn(p)">{{p}}</a>
+                <b> </b>
+            </template>
+            <a v-if="${paging.endPage != paging.lastPage}" href="#" v-on:click="rightArrowBtn">&gt;</a>
 
         </div>
         <button style="float: right" v-on:click="insertList">등록하러가기</button>
     </div>
 </body>
 <script>
-
+    var keyword = "${paging.keyword}";
     var vm = new Vue({
        el : "#vueCtrl",
        data : {
            list : ${list},
-         
+           startPage : ${paging.startPage},
+           nowPage : ${paging.startPage - 1},
+           cntPerPage : ${paging.cntPerPage},
+           endPage : ${paging.endPage + 1}
+                
        },
        methods: {
             search: function () {
@@ -66,6 +80,28 @@
             },
             goSelectOne: function (boardId) {
             	window.location.href="/selectOne?boardId="+ boardId;
+            },
+            leftArrowBtn : function(){
+                window.location.href = "/selectList?nowPage="+ this.nowPage
+                + "&cntPerPage=" + this.cntPerPage
+                + "&keyword=" + keyword
+            },
+            rightArrowBtn : function(){
+                window.location.href = "/selectList?nowPage="+ this.endPage
+                + "&cntPerPage=" + this.cntPerPage
+                + "&keyword=" + keyword
+            },
+            range : function(start, end){
+            	list = []
+            	for(i = start; i<end; i++){
+            		list.push(i);
+            	}
+            	return list;
+            },
+            paingNumBtn : function(p){
+                window.location.href = "/selectList?nowPage=" + p
+                +"&cntPerPage=" + this.cntPerPage
+                +"&keyword="+keyword
             }
             
         },
